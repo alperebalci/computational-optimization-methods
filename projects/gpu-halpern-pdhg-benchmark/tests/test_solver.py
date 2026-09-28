@@ -1,7 +1,13 @@
 import numpy as np
 import pytest
 
-from halpern_pdhg import LPProblem, highs_reference, make_demo_problem, solve_first_order, spectral_norm
+from halpern_pdhg import (
+    LPProblem,
+    highs_reference,
+    make_demo_problem,
+    solve_first_order,
+    spectral_norm,
+)
 
 
 def tiny_lp() -> LPProblem:
