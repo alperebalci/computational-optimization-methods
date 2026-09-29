@@ -1,0 +1,14 @@
+schema_version: 1
+repository: computational-optimization-methods
+role: umbrella
+axis: methodology
+area: computational-optimization
+status: active
+owner: jorsacademy
+projects:
+  - box-constrained-optimization
+  - matrix-free-pdhg-large-scale-linear-programming-python
+conventions:
+  provenance_records: true
+  reproducibility_expected: true
+  benchmark_assumptions_documented: true
