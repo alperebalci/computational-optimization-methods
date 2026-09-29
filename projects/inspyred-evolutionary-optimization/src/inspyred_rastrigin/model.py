@@ -29,7 +29,8 @@ def run(seed: int = 7, dimensions: int = 5, max_evaluations: int = 1000, populat
         mutation_rate=0.25,
     )
     best = max(final_population)
-    return Result(tuple(float(v) for v in best.candidate), float(best.fitness))
+    decision_variables = best.candidate[:dimensions]
+    return Result(tuple(float(v) for v in decision_variables), float(best.fitness))
 
 
 if __name__ == "__main__":

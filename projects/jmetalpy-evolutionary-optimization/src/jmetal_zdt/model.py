@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from jmetal.algorithm.multiobjective.nsgaii import NSGAII
-from jmetal.operator import PolynomialMutation, SBXCrossover
+from jmetal.operator.crossover import SBXCrossover
+from jmetal.operator.mutation import PolynomialMutation
 from jmetal.problem import ZDT1
 from jmetal.util.solution import get_non_dominated_solutions
 from jmetal.util.termination_criterion import StoppingByEvaluations
