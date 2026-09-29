@@ -47,3 +47,30 @@ def run(steps: int = 12) -> dict[str, object]:
 
 if __name__ == "__main__":
     print(json.dumps(run(), indent=2))
+
+
+def compare_warm_cold(solver: str = "OSQP", repeats: int = 6) -> dict[str, object]:
+    """Compare repeated solves with and without warm starts without asserting a speed winner."""
+    config=double_integrator_config()
+    initial=np.array([-0.8,0.25],dtype=float)
+    controller=ParametricMPC(config)
+    warm=[]
+    cold=[]
+    warm_obj=[]
+    cold_obj=[]
+    for k in range(repeats):
+        state=initial + np.array([0.03*k,0.0])
+        w=controller.solve(state,solver=solver,warm_start=True)
+        cold_controller=ParametricMPC(config)
+        d=cold_controller.solve(state,solver=solver,warm_start=False)
+        warm.append(w.wall_seconds)
+        cold.append(d.wall_seconds)
+        warm_obj.append(w.objective)
+        cold_obj.append(d.objective)
+    return {
+        "solver":solver,
+        "warm_wall_seconds":warm,
+        "cold_wall_seconds":cold,
+        "objective_max_abs_difference":float(np.max(np.abs(np.asarray(warm_obj)-np.asarray(cold_obj)))),
+        "speedup_claimed":False,
+    }
