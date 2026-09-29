@@ -13,8 +13,17 @@ The repository root contains the actively maintained **CPU/GPU mathematical-opti
 
 - [`box-constrained-optimization`](projects/box-constrained-optimization/)
 - [`matrix-free-pdhg-large-scale-linear-programming-python`](projects/matrix-free-pdhg-large-scale-linear-programming-python/)
+- [`pymoo-evolutionary-optimization`](projects/pymoo-evolutionary-optimization/)
+- [`evotorch-evolutionary-optimization`](projects/evotorch-evolutionary-optimization/)
+- [`jmetalpy-evolutionary-optimization`](projects/jmetalpy-evolutionary-optimization/)
+- [`mealpy-evolutionary-optimization`](projects/mealpy-evolutionary-optimization/)
+- [`leap-ec-evolutionary-optimization`](projects/leap-ec-evolutionary-optimization/)
+- [`inspyred-evolutionary-optimization`](projects/inspyred-evolutionary-optimization/)
+- [`niapy-evolutionary-optimization`](projects/niapy-evolutionary-optimization/)
+- [`platypus-opt-evolutionary-optimization`](projects/platypus-opt-evolutionary-optimization/)
+- [`geatpy-evolutionary-optimization`](projects/geatpy-evolutionary-optimization/)
 
-Each consolidated project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. The snapshot preserves the source repository's default-branch files at consolidation time; repository-level history and metadata remain separate from the snapshot.
+Each project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. Consolidated snapshots preserve their source repository context; projects created directly in this umbrella explicitly record that provenance.
 <!-- portfolio-umbrella:end -->
 
 A reproducible benchmark harness for comparing a CPU HiGHS reference with NVIDIA cuOpt on the **same LP/MIP mathematical models**. The repository is designed to remain scientifically honest on ordinary GitHub Actions runners: CPU CI validates the model, reference solver, adapter contract and benchmark/reporting logic, but it does **not** invent a GPU speedup when no GPU/cuOpt runtime exists.
