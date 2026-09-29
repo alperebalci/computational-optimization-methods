@@ -8,6 +8,7 @@ This repository is the primary umbrella repository for this Jors Academy researc
 ### Included projects
 
 - [`box-constrained-optimization`](projects/box-constrained-optimization/)
+- [`gpu-halpern-pdhg-benchmark`](projects/gpu-halpern-pdhg-benchmark/)
 - [`matrix-free-pdhg-large-scale-linear-programming-python`](projects/matrix-free-pdhg-large-scale-linear-programming-python/)
 
 Each consolidated project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. The snapshot preserves the source repository's default-branch files at consolidation time; repository-level history and metadata remain separate from the snapshot.

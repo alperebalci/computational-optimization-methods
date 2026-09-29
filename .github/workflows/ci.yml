@@ -24,9 +24,9 @@ jobs:
       - name: Install
         run: python -m pip install -e ".[dev]"
       - name: Lint
-        run: ruff check .
+        run: ruff check src scripts tests
       - name: Unit tests
-        run: pytest
+        run: pytest tests
 
   cpu-benchmark-smoke:
     needs: test
