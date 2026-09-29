@@ -48,3 +48,16 @@ def test_invalid_initial_state_is_rejected() -> None:
     controller = ParametricMPC(double_integrator_config())
     with pytest.raises(ValueError, match="state bounds"):
         controller.solve([8.0, 0.0])
+
+
+
+def test_cold_and_warm_repeated_solves_agree() -> None:
+    from embedded_mpc.timing import benchmark_repeated_solves
+
+    model = ParametricMPC(double_integrator_config(horizon=8))
+    states = np.array([[0.0, 0.0], [0.2, 0.1], [0.5, -0.1], [1.0, 0.0]])
+    benchmark = benchmark_repeated_solves(model, states, solver="OSQP")
+
+    assert benchmark.max_objective_difference < 1e-5
+    assert benchmark.warm_wall_median > 0.0
+    assert benchmark.cold_wall_median > 0.0
