@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jors-mealpy-evolutionary-lab"
+version = "0.1.0"
+description = "Population-based metaheuristic optimization using MEALPY's optimizer ecosystem."
+requires-python = ">=3.10"
+dependencies = [
+  "mealpy"
+]
+
+[tool.setuptools]
+py-modules = []
