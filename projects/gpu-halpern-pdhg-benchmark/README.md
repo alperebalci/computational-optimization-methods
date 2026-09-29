@@ -41,7 +41,14 @@ alpha_k = 1 / (k + 2).
 
 A second research baseline periodically replaces the anchor with the current iterate and resets the local Halpern counter.
 
-That periodic rule is deliberately simple. It is **not** the restart criterion or primal-weight controller used by cuPDLPx.
+The project now also includes a transparent **PID-style residual-balancing mode**. It keeps the stability product constant while adapting a primal weight `ω`:
+
+```text
+tau   = base_step / omega
+sigma = base_step * omega
+```
+
+At diagnostic checkpoints, a clipped proportional–integral–derivative update uses the log ratio of primal feasibility residual to projected stationarity. This is a research analogue for studying primal-weight adaptation; it is **not** the exact cuPDLPx controller.
 
 ## Why this is separate from the existing matrix-free PDHG project
 
@@ -98,7 +105,7 @@ This repository isolates only the basic fixed-point ideas so their behavior can 
 
 - sparse SciPy / cupyx operators;
 - adaptive restart based on normalized KKT progress;
-- primal/dual weight adaptation;
+- reproduce and validate the published cuPDLPx primal-weight controller rather than the simplified PID analogue;
 - diagonal scaling and presolve;
 - MPS benchmark ingestion;
 - controlled self-hosted GPU experiments;
