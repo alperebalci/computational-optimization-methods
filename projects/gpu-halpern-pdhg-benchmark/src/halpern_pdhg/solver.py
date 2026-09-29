@@ -10,7 +10,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.optimize import linprog
 
-Mode = Literal["pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern"]
+Mode = Literal["pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern", "pid_adaptive_halpern"]
 
 
 @dataclass(frozen=True)
@@ -66,6 +66,7 @@ class SolveResult:
     converged: bool
     wall_seconds: float
     restarts: int
+    primal_weight: float
 
 
 def make_demo_problem(seed: int = 12, rows: int = 12, columns: int = 40) -> LPProblem:
@@ -156,6 +157,9 @@ def solve_first_order(
     check_every: int = 25,
     restart_ratio: float = 0.9,
     min_restart_iterations: int = 100,
+    pid_kp: float = 0.08,
+    pid_ki: float = 0.002,
+    pid_kd: float = 0.02,
 ) -> SolveResult:
     """Run PDHG, Halpern PDHG, or a periodic-restart Halpern research baseline.
 
@@ -170,7 +174,7 @@ def solve_first_order(
     The periodic restart rule is intentionally simple and is not cuPDLPx's restart criterion.
     """
 
-    if mode not in {"pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern"}:
+    if mode not in {"pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern", "pid_adaptive_halpern"}:
         raise ValueError("unknown mode")
     if max_iter < 1 or check_every < 1:
         raise ValueError("iteration counts must be positive")
@@ -186,8 +190,12 @@ def solve_first_order(
     norm_a = spectral_norm(problem.a)
     if norm_a <= 0.0:
         raise ValueError("constraint matrix must have nonzero spectral norm")
-    tau = 0.9 / norm_a
-    sigma = 0.9 / norm_a
+    base_step = 0.9 / norm_a
+    primal_weight = 1.0
+    tau = base_step / primal_weight
+    sigma = base_step * primal_weight
+    pid_integral = 0.0
+    pid_previous_error = 0.0
 
     xp, asarray = _load_backend(backend)
     a = asarray(problem.a)
@@ -233,7 +241,7 @@ def solve_first_order(
             y_cpu = _to_numpy(xp, y)
             _, primal, stationarity = _diagnostics(problem, x_cpu, y_cpu)
             merit = max(primal, stationarity)
-            if mode == "adaptive_restarted_halpern":
+            if mode in {"adaptive_restarted_halpern", "pid_adaptive_halpern"}:
                 if merit <= restart_ratio * best_merit:
                     best_merit = merit
                 elif local_iteration >= min_restart_iterations:
@@ -242,6 +250,16 @@ def solve_first_order(
                     local_iteration = 0
                     best_merit = merit
                     restarts += 1
+            if mode == "pid_adaptive_halpern":
+                eps = 1e-12
+                pid_error = float(np.log((primal + eps) / (stationarity + eps)))
+                pid_integral = float(np.clip(pid_integral + pid_error, -20.0, 20.0))
+                pid_derivative = pid_error - pid_previous_error
+                pid_previous_error = pid_error
+                log_update = pid_kp * pid_error + pid_ki * pid_integral + pid_kd * pid_derivative
+                primal_weight = float(np.clip(primal_weight * np.exp(log_update), 1e-3, 1e3))
+                tau = base_step / primal_weight
+                sigma = base_step * primal_weight
             if merit <= tolerance:
                 converged = True
                 final_iteration = iteration
@@ -263,4 +281,5 @@ def solve_first_order(
         converged=converged,
         wall_seconds=float(wall),
         restarts=restarts,
+        primal_weight=float(primal_weight),
     )
