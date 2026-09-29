@@ -1,30 +1,15 @@
-# jmetalpy Evolutionary Optimization Lab
+# jMetalPy NSGA-II Benchmark Lab
 
-Multi-objective evolutionary optimization using the jMetalPy algorithm ecosystem.
+A compact multi-objective benchmark project using **jMetalPy 1.9.0**.
 
-## Purpose
+The project runs NSGA-II on ZDT1, extracts the nondominated approximation, and exposes the objective vectors for later quality-indicator studies. ZDT1 is used deliberately: it separates framework verification from application-specific modeling and gives a known convex Pareto-front structure.
 
-This project is a focused Jors Academy lab for evaluating **jmetalpy** as an evolutionary/metaheuristic optimization framework. It is intentionally separated from the umbrella's mathematical-programming benchmark so library-specific APIs, representations, operators, and benchmarking assumptions remain explicit.
-
-## Research checklist
-
-- reproduce a small continuous optimization baseline;
-- document population/termination/seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add a constrained or discrete case where the library supports it naturally;
-- for multi-objective libraries, report the nondominated set rather than collapsing objectives into an arbitrary scalar;
-- compare against at least one independent reference or known benchmark value before making performance claims.
-
-## Environment
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e '.[dev]'
+python -m jmetal_zdt.model
+pytest
 ```
 
-The dependency is deliberately isolated in this project rather than added to the umbrella root environment.
-
-## Status
-
-Scaffolded as a library-specific research project. Add experiments under `experiments/`, reusable code under `src/`, and tests under `tests/` as the study grows.
+For serious algorithm studies, extend this project with repeated seeds plus hypervolume, IGD/IGD+, epsilon, and statistical comparisons rather than judging an optimizer from one front.

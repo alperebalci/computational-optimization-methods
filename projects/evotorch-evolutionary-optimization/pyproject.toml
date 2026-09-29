@@ -3,13 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-evotorch-evolutionary-lab"
+name = "jors-evotorch-constrained-production"
 version = "0.1.0"
-description = "PyTorch-native evolutionary optimization with vectorized search workflows."
+description = "Tensorized constrained production optimization with EvoTorch PGPE"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "evotorch"
-]
+dependencies = ["evotorch==0.6.1"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

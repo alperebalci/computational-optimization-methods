@@ -1,30 +1,15 @@
-# niapy Evolutionary Optimization Lab
+# NiaPy Differential Evolution Benchmark
 
-Nature-inspired optimization experiments using NiaPy.
+A continuous global-optimization project using **NiaPy 2.7.1**.
 
-## Purpose
+Differential Evolution is run on the Griewank benchmark with a controlled evaluation budget and random seed. The project is designed for extending into algorithm-comparison experiments across NiaPy's nature-inspired optimizer catalog.
 
-This project is a focused Jors Academy lab for evaluating **niapy** as an evolutionary/metaheuristic optimization framework. It is intentionally separated from the umbrella's mathematical-programming benchmark so library-specific APIs, representations, operators, and benchmarking assumptions remain explicit.
-
-## Research checklist
-
-- reproduce a small continuous optimization baseline;
-- document population/termination/seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add a constrained or discrete case where the library supports it naturally;
-- for multi-objective libraries, report the nondominated set rather than collapsing objectives into an arbitrary scalar;
-- compare against at least one independent reference or known benchmark value before making performance claims.
-
-## Environment
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e '.[dev]'
+python -m niapy_griewank.model
+pytest
 ```
 
-The dependency is deliberately isolated in this project rather than added to the umbrella root environment.
-
-## Status
-
-Scaffolded as a library-specific research project. Add experiments under `experiments/`, reusable code under `src/`, and tests under `tests/` as the study grows.
+NiaPy 2.7.1 requires Python 3.11 or newer.

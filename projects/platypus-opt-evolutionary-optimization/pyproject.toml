@@ -3,11 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-platypus-opt-evolutionary-lab"
+name = "jors-platypus-engineering-tradeoff"
 version = "0.1.0"
-description = "Multi-objective evolutionary optimization using Platypus."
+description = "Bi-objective engineering trade-off with Platypus NSGA-II"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["platypus-opt"]
+dependencies = ["platypus-opt>=1.4,<2"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

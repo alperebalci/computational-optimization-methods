@@ -1,26 +1,17 @@
-# geatpy Evolutionary Optimization Lab
+# GEATpy Ackley Differential Evolution
 
-Evolutionary and multi-objective optimization experiments using GEATpy.
+A compatibility-conscious GEATpy project using the last PyPI release, **GEATpy 2.7.0**.
 
-## Purpose
+The project models the Ackley benchmark as a custom `ea.Problem` and solves it with GEATpy's `soea_DE_rand_1_bin_templet`. GEATpy's PyPI wheels stop at CPython 3.10, so this project deliberately pins Python to `>=3.10,<3.11` rather than pretending current interpreter support exists.
 
-Focused Jors Academy lab for evaluating **geatpy** as an evolutionary/metaheuristic optimization framework.
+## Run
 
-## Research checklist
-
-- reproduce a small continuous optimization baseline;
-- document population, termination and seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add constrained or discrete cases where supported;
-- report nondominated sets for multi-objective studies;
-- validate results against an independent reference before performance claims.
-
-## Environment
+Use Python 3.10:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python3.10 -m pip install -e '.[dev]'
+python -m geatpy_ackley.model
+pytest
 ```
 
-The dependency is isolated in this project rather than added to the umbrella root environment.
+This project is retained for framework comparison and legacy reproducibility. Treat compatibility constraints as part of the experimental record.

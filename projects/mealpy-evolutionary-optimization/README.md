@@ -1,30 +1,15 @@
-# mealpy Evolutionary Optimization Lab
+# MEALPY Production-Mix Genetic Algorithm
 
-Population-based metaheuristic optimization using MEALPY's optimizer ecosystem.
+A reproducible production-mix optimization example using **MEALPY 3.0.3**.
 
-## Purpose
+The model chooses quantities of three products. The objective is negative contribution margin plus quadratic penalties for labor and machine-capacity violations, so the minimizer balances profit against feasibility. The project uses `GA.OriginalGA` and explicit `FloatVar` bounds.
 
-This project is a focused Jors Academy lab for evaluating **mealpy** as an evolutionary/metaheuristic optimization framework. It is intentionally separated from the umbrella's mathematical-programming benchmark so library-specific APIs, representations, operators, and benchmarking assumptions remain explicit.
-
-## Research checklist
-
-- reproduce a small continuous optimization baseline;
-- document population/termination/seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add a constrained or discrete case where the library supports it naturally;
-- for multi-objective libraries, report the nondominated set rather than collapsing objectives into an arbitrary scalar;
-- compare against at least one independent reference or known benchmark value before making performance claims.
-
-## Environment
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e '.[dev]'
+python -m mealpy_production.model
+pytest
 ```
 
-The dependency is deliberately isolated in this project rather than added to the umbrella root environment.
-
-## Status
-
-Scaffolded as a library-specific research project. Add experiments under `experiments/`, reusable code under `src/`, and tests under `tests/` as the study grows.
+The penalty formulation is pedagogical rather than a replacement for an exact LP/MIP formulation. Use it to study stochastic search behavior, not to claim that GA is the preferred solver for linear production planning.

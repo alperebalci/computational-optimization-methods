@@ -1,30 +1,27 @@
-# pymoo Evolutionary Optimization Lab
+# pymoo Sustainable Factory Design
 
-Multi-objective evolutionary optimization with NSGA-II on a bi-objective benchmark.
+A reproducible multi-objective evolutionary optimization project built with **pymoo 0.6.2**.
 
-## Purpose
+The model chooses two normalized design levers: automation intensity and production speed. NSGA-II searches for a nondominated set balancing annualized cost and emissions while satisfying a minimum-throughput constraint.
 
-This project is a focused Jors Academy lab for evaluating **pymoo** as an evolutionary/metaheuristic optimization framework. It is intentionally separated from the umbrella's mathematical-programming benchmark so library-specific APIs, representations, operators, and benchmarking assumptions remain explicit.
+## Model
 
-## Research checklist
+Decision vector: `x = [automation, speed]`.
 
-- reproduce a small continuous optimization baseline;
-- document population/termination/seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add a constrained or discrete case where the library supports it naturally;
-- for multi-objective libraries, report the nondominated set rather than collapsing objectives into an arbitrary scalar;
-- compare against at least one independent reference or known benchmark value before making performance claims.
+- automation is bounded to `[0, 1]`
+- speed is bounded to `[0.5, 1.5]`
+- objective 1 minimizes annualized cost
+- objective 2 minimizes emissions
+- constraint requires normalized throughput to be at least 1.0
 
-## Environment
+This is intentionally a small transparent model: the purpose is to demonstrate correct pymoo problem construction, constraint handling, seeded NSGA-II execution, and Pareto-set inspection.
+
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e '.[dev]'
+python -m pymoo_factory.model
+pytest
 ```
 
-The dependency is deliberately isolated in this project rather than added to the umbrella root environment.
-
-## Status
-
-Scaffolded as a library-specific research project. Add experiments under `experiments/`, reusable code under `src/`, and tests under `tests/` as the study grows.
+The optimization is stochastic but seeded. Do not interpret a single run as evidence that NSGA-II is superior to another optimizer; use repeated trials and quality indicators for algorithm comparisons.

@@ -3,13 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-mealpy-evolutionary-lab"
+name = "jors-mealpy-production-mix"
 version = "0.1.0"
-description = "Population-based metaheuristic optimization using MEALPY's optimizer ecosystem."
+description = "Production-mix genetic algorithm with MEALPY"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "mealpy"
-]
+dependencies = ["mealpy==3.0.3", "numpy>=1.26,<3"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

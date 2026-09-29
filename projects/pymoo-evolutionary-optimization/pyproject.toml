@@ -3,13 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-pymoo-evolutionary-lab"
+name = "jors-pymoo-sustainable-factory-design"
 version = "0.1.0"
-description = "Multi-objective evolutionary optimization with NSGA-II on a bi-objective benchmark."
+description = "Multi-objective sustainable factory design with pymoo NSGA-II"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "pymoo"
-]
+dependencies = ["pymoo==0.6.2", "numpy>=1.26,<3"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

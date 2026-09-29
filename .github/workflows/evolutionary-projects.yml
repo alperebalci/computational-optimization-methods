@@ -1,0 +1,59 @@
+name: evolutionary-projects
+
+on:
+  push:
+    paths:
+      - "projects/pymoo-evolutionary-optimization/**"
+      - "projects/evotorch-evolutionary-optimization/**"
+      - "projects/jmetalpy-evolutionary-optimization/**"
+      - "projects/mealpy-evolutionary-optimization/**"
+      - "projects/leap-ec-evolutionary-optimization/**"
+      - "projects/inspyred-evolutionary-optimization/**"
+      - "projects/niapy-evolutionary-optimization/**"
+      - "projects/platypus-opt-evolutionary-optimization/**"
+      - "projects/geatpy-evolutionary-optimization/**"
+      - ".github/workflows/evolutionary-projects.yml"
+  pull_request:
+    paths:
+      - "projects/**-evolutionary-optimization/**"
+      - ".github/workflows/evolutionary-projects.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: projects/pymoo-evolutionary-optimization
+            python: "3.12"
+          - project: projects/evotorch-evolutionary-optimization
+            python: "3.12"
+          - project: projects/jmetalpy-evolutionary-optimization
+            python: "3.12"
+          - project: projects/mealpy-evolutionary-optimization
+            python: "3.12"
+          - project: projects/leap-ec-evolutionary-optimization
+            python: "3.11"
+          - project: projects/inspyred-evolutionary-optimization
+            python: "3.12"
+          - project: projects/niapy-evolutionary-optimization
+            python: "3.12"
+          - project: projects/platypus-opt-evolutionary-optimization
+            python: "3.12"
+          - project: projects/geatpy-evolutionary-optimization
+            python: "3.10"
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: python -m pip install -U pip && python -m pip install -e '.[dev]'
+      - name: Test
+        run: pytest -q

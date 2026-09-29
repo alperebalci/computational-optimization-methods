@@ -1,30 +1,15 @@
-# leap-ec Evolutionary Optimization Lab
+# LEAP Operator-Pipeline Genetic Algorithm
 
-Composable evolutionary computation pipelines with LEAP.
+A focused demonstration of **LEAP's composable evolutionary pipeline**.
 
-## Purpose
+The project solves the canonical MaxOnes problem with a binary representation, tournament selection, cloning, bit-flip mutation, uniform crossover, evaluation, and pooling. It is intentionally simple because the research target is LEAP's operator-pipeline architecture rather than the optimization problem itself.
 
-This project is a focused Jors Academy lab for evaluating **leap_ec** as an evolutionary/metaheuristic optimization framework. It is intentionally separated from the umbrella's mathematical-programming benchmark so library-specific APIs, representations, operators, and benchmarking assumptions remain explicit.
-
-## Research checklist
-
-- reproduce a small continuous optimization baseline;
-- document population/termination/seed settings;
-- distinguish objective evaluations from wall-clock time;
-- add a constrained or discrete case where the library supports it naturally;
-- for multi-objective libraries, report the nondominated set rather than collapsing objectives into an arbitrary scalar;
-- compare against at least one independent reference or known benchmark value before making performance claims.
-
-## Environment
+## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e '.[dev]'
+python -m leap_maxones.model
+pytest
 ```
 
-The dependency is deliberately isolated in this project rather than added to the umbrella root environment.
-
-## Status
-
-Scaffolded as a library-specific research project. Add experiments under `experiments/`, reusable code under `src/`, and tests under `tests/` as the study grows.
+The code mirrors LEAP's documented `generational_ea` pattern and makes the representation/operator composition explicit.

@@ -3,13 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-leap-ec-evolutionary-lab"
+name = "jors-leap-operator-pipeline-ga"
 version = "0.1.0"
-description = "Composable evolutionary computation pipelines with LEAP."
+description = "Composable binary genetic algorithm with LEAP"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "leap_ec"
-]
+dependencies = ["leap_ec>=0.8.2,<1"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -3,11 +3,18 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jors-geatpy-evolutionary-lab"
+name = "jors-geatpy-ackley-de"
 version = "0.1.0"
-description = "Evolutionary and multi-objective optimization experiments using GEATpy."
-requires-python = ">=3.10"
-dependencies = ["geatpy"]
+description = "Ackley optimization with GEATpy differential evolution"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = ["geatpy==2.7.0", "numpy>=1.23,<2"]
 
-[tool.setuptools]
-py-modules = []
+[project.optional-dependencies]
+dev = ["pytest>=8,<9"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
