@@ -10,7 +10,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.optimize import linprog
 
-Mode = Literal["pdhg", "halpern", "restarted_halpern"]
+Mode = Literal["pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern"]
 
 
 @dataclass(frozen=True)
@@ -65,6 +65,7 @@ class SolveResult:
     iterations: int
     converged: bool
     wall_seconds: float
+    restarts: int
 
 
 def make_demo_problem(seed: int = 12, rows: int = 12, columns: int = 40) -> LPProblem:
@@ -153,6 +154,8 @@ def solve_first_order(
     tolerance: float = 1e-5,
     restart_period: int = 500,
     check_every: int = 25,
+    restart_ratio: float = 0.9,
+    min_restart_iterations: int = 100,
 ) -> SolveResult:
     """Run PDHG, Halpern PDHG, or a periodic-restart Halpern research baseline.
 
@@ -167,7 +170,7 @@ def solve_first_order(
     The periodic restart rule is intentionally simple and is not cuPDLPx's restart criterion.
     """
 
-    if mode not in {"pdhg", "halpern", "restarted_halpern"}:
+    if mode not in {"pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern"}:
         raise ValueError("unknown mode")
     if max_iter < 1 or check_every < 1:
         raise ValueError("iteration counts must be positive")
@@ -175,6 +178,10 @@ def solve_first_order(
         raise ValueError("tolerance must be positive")
     if restart_period < 2:
         raise ValueError("restart_period must be at least two")
+    if not 0.0 < restart_ratio < 1.0:
+        raise ValueError("restart_ratio must lie in (0, 1)")
+    if min_restart_iterations < 1:
+        raise ValueError("min_restart_iterations must be positive")
 
     norm_a = spectral_norm(problem.a)
     if norm_a <= 0.0:
@@ -195,6 +202,8 @@ def solve_first_order(
     anchor_y = y.copy()
     local_iteration = 0
     converged = False
+    restarts = 0
+    best_merit = float("inf")
 
     start = perf_counter()
     final_iteration = max_iter
@@ -211,6 +220,7 @@ def solve_first_order(
                 anchor_x = x.copy()
                 anchor_y = y.copy()
                 local_iteration = 0
+                restarts += 1
             alpha = 1.0 / (local_iteration + 2.0)
             x_next = alpha * anchor_x + (1.0 - alpha) * x_operator
             y_next = alpha * anchor_y + (1.0 - alpha) * y_operator
@@ -222,7 +232,17 @@ def solve_first_order(
             x_cpu = _to_numpy(xp, x)
             y_cpu = _to_numpy(xp, y)
             _, primal, stationarity = _diagnostics(problem, x_cpu, y_cpu)
-            if max(primal, stationarity) <= tolerance:
+            merit = max(primal, stationarity)
+            if mode == "adaptive_restarted_halpern":
+                if merit <= restart_ratio * best_merit:
+                    best_merit = merit
+                elif local_iteration >= min_restart_iterations:
+                    anchor_x = x.copy()
+                    anchor_y = y.copy()
+                    local_iteration = 0
+                    best_merit = merit
+                    restarts += 1
+            if merit <= tolerance:
                 converged = True
                 final_iteration = iteration
                 break
@@ -242,4 +262,5 @@ def solve_first_order(
         iterations=final_iteration,
         converged=converged,
         wall_seconds=float(wall),
+        restarts=restarts,
     )
