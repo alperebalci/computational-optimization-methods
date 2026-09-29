@@ -10,7 +10,13 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.optimize import linprog
 
-Mode = Literal["pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern", "pid_adaptive_halpern"]
+Mode = Literal[
+    "pdhg",
+    "halpern",
+    "restarted_halpern",
+    "adaptive_restarted_halpern",
+    "pid_adaptive_halpern",
+]
 
 
 @dataclass(frozen=True)
@@ -174,7 +180,14 @@ def solve_first_order(
     The periodic restart rule is intentionally simple and is not cuPDLPx's restart criterion.
     """
 
-    if mode not in {"pdhg", "halpern", "restarted_halpern", "adaptive_restarted_halpern", "pid_adaptive_halpern"}:
+    valid_modes = {
+        "pdhg",
+        "halpern",
+        "restarted_halpern",
+        "adaptive_restarted_halpern",
+        "pid_adaptive_halpern",
+    }
+    if mode not in valid_modes:
         raise ValueError("unknown mode")
     if max_iter < 1 or check_every < 1:
         raise ValueError("iteration counts must be positive")
