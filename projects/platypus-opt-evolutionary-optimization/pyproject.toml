@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jors-platypus-opt-evolutionary-lab"
+version = "0.1.0"
+description = "Multi-objective evolutionary optimization using Platypus."
+requires-python = ">=3.10"
+dependencies = ["platypus-opt"]
+
+[tool.setuptools]
+py-modules = []
