@@ -55,3 +55,21 @@ def test_generated_problem_is_feasible_and_reference_solves() -> None:
 def test_unknown_backend_is_rejected() -> None:
     with pytest.raises(ValueError, match="backend"):
         solve_first_order(tiny_lp(), backend="invalid")
+
+
+
+def test_adaptive_restarted_halpern_runs_and_tracks_restarts() -> None:
+    problem = make_demo_problem(seed=31, rows=5, columns=14)
+    result = solve_first_order(
+        problem,
+        mode="adaptive_restarted_halpern",
+        max_iter=1200,
+        tolerance=1e-4,
+        check_every=20,
+        min_restart_iterations=60,
+        restart_ratio=0.85,
+    )
+
+    assert np.isfinite(result.objective)
+    assert result.restarts >= 0
+    assert result.primal_residual < 5e-2
