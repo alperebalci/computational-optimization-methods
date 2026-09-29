@@ -18,6 +18,7 @@ def _payload(result: SolveResult, reference: float) -> dict[str, object]:
         "iterations": result.iterations,
         "converged": result.converged,
         "wall_seconds": result.wall_seconds,
+        "primal_weight": result.primal_weight,
     }
 
 
@@ -29,6 +30,7 @@ def run(seed: int = 12) -> dict[str, object]:
         solve_first_order(problem, mode="pdhg", max_iter=20_000),
         solve_first_order(problem, mode="halpern", max_iter=20_000),
         solve_first_order(problem, mode="restarted_halpern", max_iter=20_000),
+        solve_first_order(problem, mode="pid_adaptive_halpern", max_iter=20_000),
     ]
 
     gpu_payload: dict[str, object] | None
