@@ -73,3 +73,20 @@ def test_adaptive_restarted_halpern_runs_and_tracks_restarts() -> None:
     assert np.isfinite(result.objective)
     assert result.restarts >= 0
     assert result.primal_residual < 5e-2
+
+
+def test_pid_adaptive_halpern_updates_primal_weight() -> None:
+    problem = make_demo_problem(seed=41, rows=4, columns=12)
+    result = solve_first_order(
+        problem,
+        mode="pid_adaptive_halpern",
+        max_iter=800,
+        tolerance=1e-4,
+        check_every=20,
+        min_restart_iterations=60,
+    )
+
+    assert np.isfinite(result.objective)
+    assert np.isfinite(result.primal_weight)
+    assert 1e-3 <= result.primal_weight <= 1e3
+    assert result.primal_weight != 1.0
