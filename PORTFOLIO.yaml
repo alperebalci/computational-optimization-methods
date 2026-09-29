@@ -8,6 +8,15 @@ owner: jorsacademy
 projects:
   - box-constrained-optimization
   - matrix-free-pdhg-large-scale-linear-programming-python
+  - pymoo-evolutionary-optimization
+  - evotorch-evolutionary-optimization
+  - jmetalpy-evolutionary-optimization
+  - mealpy-evolutionary-optimization
+  - leap-ec-evolutionary-optimization
+  - inspyred-evolutionary-optimization
+  - niapy-evolutionary-optimization
+  - platypus-opt-evolutionary-optimization
+  - geatpy-evolutionary-optimization
 conventions:
   provenance_records: true
   reproducibility_expected: true
