@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jors-evotorch-evolutionary-lab"
+version = "0.1.0"
+description = "PyTorch-native evolutionary optimization with vectorized search workflows."
+requires-python = ">=3.10"
+dependencies = [
+  "evotorch"
+]
+
+[tool.setuptools]
+py-modules = []
