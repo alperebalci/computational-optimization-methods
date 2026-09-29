@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jors-leap-ec-evolutionary-lab"
+version = "0.1.0"
+description = "Composable evolutionary computation pipelines with LEAP."
+requires-python = ">=3.10"
+dependencies = [
+  "leap_ec"
+]
+
+[tool.setuptools]
+py-modules = []
