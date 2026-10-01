@@ -1,0 +1,8 @@
+{
+  "scope":"binary XOR smoke; optimality restricted to fixed catalog and depth",
+  "results":[
+    {"seed":101,"optimal_tree":{"features":4,"depth":2,"splits":[[0,0.5],[1,0.5],[1,0.5]],"labels":[0,1,1,0],"status":0,"proven_optimal":true,"mip_gap":0.0,"dual_bound":0.0,"train_error":0.0,"seconds":0.05392185299990615,"catalog_size":4},"test_error":0.0,"cart_train_error":0.0,"cart_test_error":0.0},
+    {"seed":102,"optimal_tree":{"features":4,"depth":2,"splits":[[0,0.5],[1,0.5],[1,0.5]],"labels":[0,1,1,0],"status":0,"proven_optimal":true,"mip_gap":0.0,"dual_bound":0.0,"train_error":0.0,"seconds":0.034496697999998105,"catalog_size":4},"test_error":0.0,"cart_train_error":0.0,"cart_test_error":0.0},
+    {"seed":103,"optimal_tree":{"features":4,"depth":2,"splits":[[0,0.5],[1,0.5],[1,0.5]],"labels":[0,1,1,0],"status":0,"proven_optimal":true,"mip_gap":0.0,"dual_bound":0.0,"train_error":0.0,"seconds":0.06098045699991417,"catalog_size":4},"test_error":0.0,"cart_train_error":0.0,"cart_test_error":0.0}
+  ]
+}

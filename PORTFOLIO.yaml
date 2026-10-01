@@ -17,6 +17,7 @@ projects:
   - niapy-evolutionary-optimization
   - platypus-opt-evolutionary-optimization
   - geatpy-evolutionary-optimization
+  - optimal-classification-trees-milp
 conventions:
   provenance_records: true
   reproducibility_expected: true

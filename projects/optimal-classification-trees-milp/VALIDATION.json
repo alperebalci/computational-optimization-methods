@@ -1,0 +1,8 @@
+{
+  "project": "optimal_trees",
+  "status": "passed",
+  "tests": 7,
+  "environment": {"python":"3.13.5","numpy":"2.3.5","scipy":"1.17.0","scikit-learn":"1.8.0","device":"CPU","threads":1,"date":"2026-10-01"},
+  "sha256": {"study.py":"a0d81d999724a4b6c30badccdc2aa9ab1ef0bd026150a8228b669b18cec2c1dd","checks.py":"1b7193e59984ccccec0f8b605126c0aec8c3b09f280197b8d57ee31635bbd9b5"},
+  "scope":"only this new module; existing umbrella regression suite not run"
+}
