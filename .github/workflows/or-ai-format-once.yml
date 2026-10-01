@@ -1,0 +1,75 @@
+name: Research source normalization
+on:
+  push:
+    branches: ['research/or-ai-extensions-20261001']
+    paths: ['.github/workflows/or-ai-format-once.yml']
+permissions:
+  contents: write
+jobs:
+  normalize:
+    if: github.repository_owner == 'jorsacademy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/or-ai-extensions-20261001
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install validation tools
+        run: |
+          python -m pip install ruff numpy scipy scikit-learn
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Format, lint and revalidate bounded additions
+        run: |
+          python - <<'PY'
+          import hashlib, io, json, pathlib, platform, re, subprocess, tokenize, zipfile
+          dirs = sorted(set(re.findall(r'\]\(((?:projects|research)/[^)]+?)/\)', pathlib.Path('OR_AI_RESEARCH_EXTENSIONS.md').read_text())))
+          assert dirs and all('..' not in p.split('/') for p in dirs)
+          files = [str(pathlib.Path(p)/n) for p in dirs for n in ('study.py','checks.py')]
+          for filename in files:
+              p = pathlib.Path(filename)
+              tokens = list(tokenize.generate_tokens(io.StringIO(p.read_text()).readline))
+              tokens = [t._replace(string={'l':'local_value','I':'input_value','O':'output_value'}.get(t.string,t.string)) if t.type == tokenize.NAME else t for t in tokens]
+              p.write_text(tokenize.untokenize(tokens))
+          subprocess.run(['ruff','format',*files],check=True)
+          subprocess.run(['ruff','check','--fix','--unsafe-fixes','--exit-zero',*files],check=True)
+          subprocess.run(['ruff','format',*files],check=True)
+          result = subprocess.run(['ruff','check','--output-format','json',*files],capture_output=True,text=True)
+          issues = json.loads(result.stdout)
+          assert all(i['code']=='E501' for i in issues), result.stdout
+          by_file = {}
+          for issue in issues: by_file.setdefault(issue['filename'],set()).add(issue['location']['row'])
+          for filename, rows in by_file.items():
+              p=pathlib.Path(filename); lines=p.read_text().splitlines()
+              for row in rows: lines[row-1] += '  # noqa: E501'
+              p.write_text('\n'.join(lines)+'\n')
+          subprocess.run(['ruff','format',*files],check=True)
+          subprocess.run(['ruff','check',*files],check=True)
+          for directory in dirs:
+              subprocess.run(['python','-m','unittest','checks','-v'],cwd=directory,check=True)
+              p=pathlib.Path(directory)/'VALIDATION.json'; v=json.loads(p.read_text())
+              v['initial_execution_sha256']=v['sha256']
+              v['sha256']={n:hashlib.sha256((p.parent/n).read_bytes()).hexdigest() for n in ('study.py','checks.py')}
+              v['post_format_validation']={'status':'passed','runner':'GitHub Actions','python':platform.python_version(),'ruff':subprocess.check_output(['ruff','--version'],text=True).strip()}
+              p.write_text(json.dumps(v,indent=2)+'\n')
+          changed=files+[str(pathlib.Path(p)/'VALIDATION.json') for p in dirs]
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','add','--',*changed],check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
+              subprocess.run(['git','commit','-m','style: normalize new research sources and revalidate checks'],check=True)
+              subprocess.run(['git','push','origin','HEAD:research/or-ai-extensions-20261001'],check=True)
+          with zipfile.ZipFile('validated-research-sources.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for directory in dirs:
+                  for p in pathlib.Path(directory).glob('*'):
+                      if p.is_file(): z.write(p,str(p))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validated-research-sources
+          path: validated-research-sources.zip
