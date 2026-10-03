@@ -6,6 +6,11 @@ Executable reference implementations for advanced evolutionary-computation topic
 
 - **GPU-accelerated GA:** vectorized real-valued GA with NumPy or optional CuPy.
 - **Distributed GA:** island-model GA with optional MPI ring migration plus a deterministic serial-island fallback for CI.
+- **Interactive Evolutionary Computation:** external scorer callback that can be connected to human ratings or preferences.
+- **Coevolutionary algorithms:** competitive two-population zero-sum coevolution.
+- **Learning Classifier Systems (LCS):** compact Michigan-style ternary-rule classifier system.
+- **Cartesian Genetic Programming:** a (1+lambda) symbolic-regression reference implementation.
+- **Grammatical Evolution:** codon-to-grammar symbolic regression with a closed arithmetic grammar.
 - **Quality-Diversity / MAP-Elites:** two-dimensional archive that keeps the best solution in each behavioral cell.
 - **Novelty Search:** k-nearest-neighbor behavioral novelty with an explicit archive and no objective-based selection.
 - **Advanced benchmarking:** repeated-seed summaries with median, IQR, best objective, wall time and optional success rate.
