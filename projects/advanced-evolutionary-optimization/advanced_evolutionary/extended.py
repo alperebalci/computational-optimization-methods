@@ -211,7 +211,7 @@ class CGPGenome:
         self,
         rng: np.random.Generator,
         mutation_rate: float = 0.1,
-    ) -> "CGPGenome":
+    ) -> CGPGenome:
         genes = self.genes.copy()
         for node in range(self.n_nodes):
             base = node * 3
