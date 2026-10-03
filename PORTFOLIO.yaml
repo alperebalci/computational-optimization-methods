@@ -6,7 +6,11 @@ area: computational-optimization
 status: active
 owner: jorsacademy
 projects:
-  - box-constrained-optimization\n  - spatial-branch-and-bound-bilinear-global-optimization\n  - parametric-linear-programming-post-optimality\n  - infeasibility-diagnosis-and-model-repair\n  - matrix-free-pdhg-large-scale-linear-programming-python
+  - box-constrained-optimization
+  - spatial-branch-and-bound-bilinear-global-optimization
+  - parametric-linear-programming-post-optimality
+  - infeasibility-diagnosis-and-model-repair
+  - matrix-free-pdhg-large-scale-linear-programming-python
   - clarabel-robust-portfolio-socp-julia
   - cosmo-nearest-correlation-sdp-julia
   - hypatia-exponential-cone-resource-allocation-julia
