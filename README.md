@@ -13,6 +13,10 @@ The repository root contains the actively maintained **CPU/GPU mathematical-opti
 
 - [`box-constrained-optimization`](projects/box-constrained-optimization/)
 - [`matrix-free-pdhg-large-scale-linear-programming-python`](projects/matrix-free-pdhg-large-scale-linear-programming-python/)
+- [`clarabel-robust-portfolio-socp-julia`](projects/clarabel-robust-portfolio-socp-julia/)
+- [`cosmo-nearest-correlation-sdp-julia`](projects/cosmo-nearest-correlation-sdp-julia/)
+- [`hypatia-exponential-cone-resource-allocation-julia`](projects/hypatia-exponential-cone-resource-allocation-julia/)
+- [`qpalm-model-predictive-control-python`](projects/qpalm-model-predictive-control-python/)
 - [`pymoo-evolutionary-optimization`](projects/pymoo-evolutionary-optimization/)
 - [`evotorch-evolutionary-optimization`](projects/evotorch-evolutionary-optimization/)
 - [`jmetalpy-evolutionary-optimization`](projects/jmetalpy-evolutionary-optimization/)
