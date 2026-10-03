@@ -2,12 +2,12 @@ import numpy as np
 
 from advanced_evolutionary import (
     LearningClassifierSystem,
+    benchmark_methods,
     competitive_coevolution,
+    distributed_island_ga,
     evolve_cgp,
     evolve_grammar,
     interactive_evolution,
-    benchmark_methods,
-    distributed_island_ga,
     map_elites,
     novelty_search,
     real_valued_ga,
