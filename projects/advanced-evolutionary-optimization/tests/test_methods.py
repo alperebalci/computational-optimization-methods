@@ -1,5 +1,4 @@
 import numpy as np
-
 from advanced_evolutionary import (
     LearningClassifierSystem,
     benchmark_methods,
