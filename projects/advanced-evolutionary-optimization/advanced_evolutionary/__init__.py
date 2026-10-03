@@ -225,7 +225,7 @@ def map_elites(
     for _ in range(iterations):
         if archive and rng.random() < 0.8:
             keys = list(archive)
-            parent = archive[keys[int(rng.integers(0, len(keys)))]] .genome
+            parent = archive[keys[int(rng.integers(0, len(keys)))]].genome
             genome = np.clip(parent + rng.normal(0.0, 0.10, dimensions), -1.0, 1.0)
         else:
             genome = rng.uniform(-1.0, 1.0, dimensions)
@@ -269,7 +269,7 @@ def novelty_search(
         for i, behavior in enumerate(behaviors):
             distances = np.linalg.norm(reference - behavior, axis=1)
             distances.sort()
-            start = 1 if not behavior_archive else 0
+            start = 1
             count = min(k_neighbors, len(distances) - start)
             neighbors = distances[start : start + count]
             novelty[i] = float(np.mean(neighbors)) if len(neighbors) else 0.0
@@ -321,7 +321,23 @@ def benchmark_methods(
     return report
 
 
+from .extended import (
+    CGPGenome,
+    LearningClassifierSystem,
+    competitive_coevolution,
+    evolve_cgp,
+    evolve_grammar,
+    interactive_evolution,
+)
+
+
 __all__ = [
+    "CGPGenome",
+    "LearningClassifierSystem",
+    "competitive_coevolution",
+    "evolve_cgp",
+    "evolve_grammar",
+    "interactive_evolution",
     "Elite",
     "GAResult",
     "benchmark_methods",
