@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
-from typing import Callable, Iterable, Sequence
 
 import numpy as np
 
@@ -137,7 +137,7 @@ class LearningClassifierSystem:
         *,
         epochs: int = 20,
         learning_rate: float = 0.2,
-    ) -> "LearningClassifierSystem":
+    ) -> LearningClassifierSystem:
         data = [(tuple(map(int, state)), int(label)) for state, label in samples]
         if not data:
             raise ValueError("samples must not be empty")
@@ -185,7 +185,7 @@ class CGPGenome:
         n_inputs: int,
         n_nodes: int,
         rng: np.random.Generator,
-    ) -> "CGPGenome":
+    ) -> CGPGenome:
         genes = []
         for node in range(n_nodes):
             max_source = n_inputs + node
