@@ -13,8 +13,8 @@ upper bound and branches on the widest variable interval.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import heapq
+from dataclasses import dataclass
 
 import numpy as np
 from scipy.optimize import linprog, minimize
