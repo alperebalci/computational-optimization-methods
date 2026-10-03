@@ -21,6 +21,7 @@ projects:
   - niapy-evolutionary-optimization
   - platypus-opt-evolutionary-optimization
   - geatpy-evolutionary-optimization
+  - advanced-evolutionary-optimization
 conventions:
   provenance_records: true
   reproducibility_expected: true

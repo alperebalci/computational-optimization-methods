@@ -26,6 +26,7 @@ The repository root contains the actively maintained **CPU/GPU mathematical-opti
 - [`niapy-evolutionary-optimization`](projects/niapy-evolutionary-optimization/)
 - [`platypus-opt-evolutionary-optimization`](projects/platypus-opt-evolutionary-optimization/)
 - [`geatpy-evolutionary-optimization`](projects/geatpy-evolutionary-optimization/)
+- [`advanced-evolutionary-optimization`](projects/advanced-evolutionary-optimization/)
 
 Each project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. Consolidated snapshots preserve their source repository context; projects created directly in this umbrella explicitly record that provenance.
 <!-- portfolio-umbrella:end -->

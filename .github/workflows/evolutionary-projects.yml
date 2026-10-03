@@ -12,6 +12,7 @@ on:
       - "projects/niapy-evolutionary-optimization/**"
       - "projects/platypus-opt-evolutionary-optimization/**"
       - "projects/geatpy-evolutionary-optimization/**"
+      - "projects/advanced-evolutionary-optimization/**"
       - ".github/workflows/evolutionary-projects.yml"
   pull_request:
     paths:
@@ -43,6 +44,8 @@ jobs:
             python: "3.12"
           - project: projects/geatpy-evolutionary-optimization
             python: "3.10"
+          - project: projects/advanced-evolutionary-optimization
+            python: "3.12"
 
     defaults:
       run:
