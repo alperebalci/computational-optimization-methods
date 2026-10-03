@@ -1,5 +1,6 @@
 using JuMP
 using Hypatia
+using LinearAlgebra
 import MathOptInterface as MOI
 
 alpha = [1.40, 1.15, 0.90, 0.70]
