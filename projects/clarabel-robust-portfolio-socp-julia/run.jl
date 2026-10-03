@@ -1,6 +1,7 @@
 using JuMP
 using Clarabel
 using LinearAlgebra
+import MathOptInterface as MOI
 
 mu = [0.105, 0.092, 0.081, 0.067, 0.055]
 L = [
