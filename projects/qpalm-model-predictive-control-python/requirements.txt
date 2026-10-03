@@ -1,0 +1,3 @@
+numpy>=1.26
+qpsolvers>=4.8
+qpalm>=1.2
