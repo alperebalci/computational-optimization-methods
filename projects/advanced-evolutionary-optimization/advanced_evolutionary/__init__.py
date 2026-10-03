@@ -10,6 +10,15 @@ from typing import Any
 
 import numpy as np
 
+from .extended import (
+    CGPGenome,
+    LearningClassifierSystem,
+    competitive_coevolution,
+    evolve_cgp,
+    evolve_grammar,
+    interactive_evolution,
+)
+
 
 @dataclass(frozen=True)
 class GAResult:
@@ -319,16 +328,6 @@ def benchmark_methods(
             summary["success_rate"] = sum(value <= target for value in values) / len(values)
         report[name] = summary
     return report
-
-
-from .extended import (
-    CGPGenome,
-    LearningClassifierSystem,
-    competitive_coevolution,
-    evolve_cgp,
-    evolve_grammar,
-    interactive_evolution,
-)
 
 
 __all__ = [
