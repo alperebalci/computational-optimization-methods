@@ -1,6 +1,7 @@
 using JuMP
 using COSMO
 using LinearAlgebra
+import MathOptInterface as MOI
 
 C = [
      1.00   0.92   0.78   0.55
