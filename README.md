@@ -12,6 +12,9 @@ The repository root contains the actively maintained **CPU/GPU mathematical-opti
 ### Included projects
 
 - [`box-constrained-optimization`](projects/box-constrained-optimization/)
+- [`spatial-branch-and-bound-bilinear-global-optimization`](projects/spatial-branch-and-bound-bilinear-global-optimization/)
+- [`parametric-linear-programming-post-optimality`](projects/parametric-linear-programming-post-optimality/)
+- [`infeasibility-diagnosis-and-model-repair`](projects/infeasibility-diagnosis-and-model-repair/)
 - [`matrix-free-pdhg-large-scale-linear-programming-python`](projects/matrix-free-pdhg-large-scale-linear-programming-python/)
 - [`clarabel-robust-portfolio-socp-julia`](projects/clarabel-robust-portfolio-socp-julia/)
 - [`cosmo-nearest-correlation-sdp-julia`](projects/cosmo-nearest-correlation-sdp-julia/)
