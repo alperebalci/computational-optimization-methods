@@ -49,3 +49,27 @@ jobs:
         with:
           name: cpu-benchmark-smoke
           path: artifacts/*.json
+
+  or-methodology-projects:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - spatial-branch-and-bound-bilinear-global-optimization
+          - parametric-linear-programming-post-optimality
+          - infeasibility-diagnosis-and-model-repair
+    defaults:
+      run:
+        working-directory: projects/${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install project
+        run: python -m pip install -e '.[dev]'
+      - name: Compile project
+        run: python -m compileall -q src
+      - name: Test project
+        run: pytest
