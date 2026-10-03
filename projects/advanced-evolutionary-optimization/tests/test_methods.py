@@ -1,6 +1,11 @@
 import numpy as np
 
 from advanced_evolutionary import (
+    LearningClassifierSystem,
+    competitive_coevolution,
+    evolve_cgp,
+    evolve_grammar,
+    interactive_evolution,
     benchmark_methods,
     distributed_island_ga,
     map_elites,
@@ -68,3 +73,42 @@ def test_benchmark_harness():
     )
     assert report["a"]["runs"] == 4
     assert report["a"]["success_rate"] == 0.75
+
+
+def test_interactive_coevolution_and_lcs():
+    target = np.array([0.4, -0.2, 0.1])
+    best, score = interactive_evolution(
+        lambda x: -float(np.sum((x - target) ** 2)),
+        dimensions=3,
+        population_size=10,
+        generations=8,
+        seed=1,
+    )
+    assert best.shape == (3,)
+    assert np.isfinite(score)
+
+    a, b = competitive_coevolution(lambda x, y: x - y, generations=5, seed=1)
+    assert -1.0 <= a <= 1.0
+    assert -1.0 <= b <= 1.0
+
+    data = [((0, 0), 0), ((0, 1), 0), ((1, 0), 0), ((1, 1), 1)]
+    lcs = LearningClassifierSystem(2, seed=4).fit(data, epochs=40)
+    assert sum(lcs.predict(x) == y for x, y in data) >= 3
+
+
+def test_cgp_and_grammatical_evolution_run():
+    x = np.linspace(-1.0, 1.0, 21)
+    y = x * x
+    genome, cgp_loss = evolve_cgp(x, y, n_nodes=8, generations=20, offspring=5, seed=0)
+    assert genome.evaluate([x]).shape == x.shape
+    assert np.isfinite(cgp_loss)
+
+    expression, ge_loss = evolve_grammar(
+        x,
+        y,
+        population_size=30,
+        generations=15,
+        seed=0,
+    )
+    assert isinstance(expression, str)
+    assert np.isfinite(ge_loss)
